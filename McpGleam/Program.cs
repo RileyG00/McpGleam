@@ -21,7 +21,7 @@ builder.Services
 		options.ServerInfo = new()
 		{
 			Name = "gleamProgrammingDocumentation",
-			Version = "1.1.0",
+			Version = "1.2.0",
 			Description = "MCP server for collecting documentation for the Gleam Programming language."
 		};
 	})
