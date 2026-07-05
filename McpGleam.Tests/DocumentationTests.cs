@@ -72,11 +72,11 @@ namespace McpGleam.Tests
         }
 
         [Fact]
-        public void ParserDocumentationItem_WithNullOrEmpty_ReturnsEmptyString()
+        public void ParserDocumentationItem_WithNullOrEmpty_ThrowsException()
         {
             // Act & Assert
-            Assert.Equal(string.Empty, ParserUtil.ParserDocumentationItem(null!));
-            Assert.Equal(string.Empty, ParserUtil.ParserDocumentationItem(string.Empty));
+            Assert.Throws<ModelContextProtocol.McpException>(() => ParserUtil.ParserDocumentationItem(null!));
+            Assert.Throws<ModelContextProtocol.McpException>(() => ParserUtil.ParserDocumentationItem(string.Empty));
         }
 
         [Fact]
@@ -98,8 +98,8 @@ namespace McpGleam.Tests
             string result = ParserUtil.ParserDocumentationItem(html);
 
             // Assert
-            Assert.Contains("<h2>Assignments</h2>", result);
-            Assert.Contains("A value can be assigned to a variable using <code>let</code>.", result);
+            Assert.Contains("## Assignments", result);
+            Assert.Contains("A value can be assigned to a variable using `let`.", result);
         }
 
         [Fact]
@@ -116,8 +116,55 @@ namespace McpGleam.Tests
             string result = ParserUtil.ParserDocumentationItem(html);
 
             // Assert
-            Assert.Contains("<h2>Assignments</h2>", result);
-            Assert.Contains("A value can be assigned to a variable using <code>let</code>.", result);
+            Assert.Contains("## Assignments", result);
+            Assert.Contains("A value can be assigned to a variable using `let`.", result);
         }
+
+        [Fact]
+        public void ParserDocumentationItem_WithPlaygroundCode_ExtractsMarkdownAndCode()
+        {
+            // Arrange
+            string html = @"
+                <section id=""left"" class=""content-nav"">
+                    <div>
+                        <h2>Hello world</h2>
+                        <p>Here is a tiny program that prints out text.</p>
+                    </div>
+                </section>
+                <script type=""gleam"" id=""code"">
+                import gleam/io
+                pub fn main() {
+                  io.println(""Hello, Joe!"")
+                }
+                </script>";
+
+            // Act
+            string result = ParserUtil.ParserDocumentationItem(html);
+
+            // Assert
+            Assert.Contains("## Hello world", result);
+            Assert.Contains("Here is a tiny program that prints out text.", result);
+            Assert.Contains("### Example Code", result);
+            Assert.Contains("```gleam", result);
+            Assert.Contains("import gleam/io", result);
+            Assert.Contains("io.println(\"Hello, Joe!\")", result);
+        }
+
+        [Fact]
+        public void ConvertHtmlToMarkdown_ConvertsTagsCorrectly()
+        {
+            // Arrange
+            string html = "<h2>Title</h2><p>Click <a href=\"/relative\">link</a>.</p><ul><li>One</li><li>Two</li></ul>";
+
+            // Act
+            string result = ParserUtil.ConvertHtmlToMarkdown(html);
+
+            // Assert
+            Assert.Contains("## Title", result);
+            Assert.Contains("[link](https://tour.gleam.run/relative)", result);
+            Assert.Contains("* One", result);
+            Assert.Contains("* Two", result);
+        }
+
     }
 }

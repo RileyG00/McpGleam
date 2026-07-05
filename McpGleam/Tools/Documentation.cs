@@ -12,7 +12,7 @@ namespace McpGleam.Tools
 {
 	
 	[McpServerToolType]
-	internal static class Documentation
+	public static class Documentation
 	{
 		[McpServerTool(Name = "list_available_docs")]
 		[Description("Returns a list of all available documentation items, their category, and the URL to fetch additional information.")]
@@ -68,14 +68,10 @@ namespace McpGleam.Tools
 		{
 			HttpClient httpClient = httpClientFactory.CreateClient(HttpConstants.GleamDocsEndpointName);
 
-			StringBuilder documentation = new();
+			var results = new Dictionary<string, string>();
 
 			foreach (string url in documentationUrl)
 			{
-				documentation.AppendLine("---------------------------");
-				documentation.AppendLine(url);
-				documentation.AppendLine();
-
 				string urlFragment = url.TrimStart('/');
 				string html = string.Empty;
 
@@ -89,14 +85,14 @@ namespace McpGleam.Tools
 				}
 				catch (Exception ex)
 				{
-					throw new McpException("The API call to fetch the documentation failed.", ex);
+					throw new McpException($"The API call to fetch documentation for '{url}' failed.", ex);
 				}
 
-				documentation.AppendLine(ParserUtil.ParserDocumentationItem(html));
-				documentation.AppendLine();
+				string markdown = ParserUtil.ParserDocumentationItem(html);
+				results[url] = markdown;
 			}
 
-			return documentation.ToString();
+			return JsonSerializer.Serialize(results, new JsonSerializerOptions { WriteIndented = true });
 		}
 	}
 }
