@@ -42,7 +42,7 @@ namespace McpGleam.Tools
 
 			foreach (string url in documentationUrl)
 			{
-				string urlFragment = url.TrimStart('/');
+				string urlFragment = url.TrimStart('/').TrimStart('https://tour.gleam.run/');
 				string html = string.Empty;
 
 				try
