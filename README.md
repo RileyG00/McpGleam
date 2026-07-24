@@ -1,4 +1,4 @@
-# McpGleamDocs: Gleam Programming Language Documentation MCP Server
+# McpGleamDocs: Gleam Programming Language Documentation MCP Server (v1.2.2)
 
 `McpGleamDocs` is a Model Context Protocol (MCP) server written in C# (.NET 10.0) that fetches and parses documentation for the Gleam programming language from [The Gleam Tour](https://tour.gleam.run/). It allows LLMs and MCP clients to query available documentation categories and retrieve up-to-date documentation content.
 
@@ -11,11 +11,27 @@ The server exposes the following MCP tools:
 1. **`list_available_docs`**
    - **Description**: Returns a JSON array containing all available documentation items, their category, and the path/URL to fetch additional information.
    - **Usage**: Use this to discover what Gleam concepts, syntax, and libraries are documented in the tour.
+   - **Response Format**:
+     ```json
+     [
+       {
+         "Category": "Basics",
+         "Name": "Hello world",
+         "Path": "/basics/hello-world"
+       }
+     ]
+     ```
 
 2. **`get_item_documentation`**
    - **Description**: Fetches the up-to-date documentation details for one or many items by the URL/path fragment (e.g. `basics/hello-world`).
    - **Parameters**:
-     - `documentationUrl` (string[]): The URL path fragments at which the documentation items can be retrieved.
+     - `documentationUrl` (string[]): The URL path fragments at which the documentation items can be retrieved. Supports relative paths (e.g., `basics/hello-world` or `/basics/hello-world`) as well as absolute URLs (e.g., `https://tour.gleam.run/basics/hello-world`).
+   - **Response Format**:
+     ```json
+     {
+       "basics/hello-world": "## Hello world\n\nHere is a tiny program that prints out text...\n\n### Example Code\n```gleam\nimport gleam/io\npub fn main() {\n  io.println(\"Hello, Joe!\")\n}\n```"
+     }
+     ```
 
 ---
 
