@@ -1,4 +1,4 @@
-using McpGleam.Constants;
+using McpGleamDocs.Constants;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -21,7 +21,7 @@ builder.Services
 		options.ServerInfo = new()
 		{
 			Name = "gleamProgrammingDocumentation",
-			Version = "1.2.1",
+			Version = "1.2.2",
 			Description = "MCP server for collecting documentation for the Gleam Programming language."
 		};
 	})

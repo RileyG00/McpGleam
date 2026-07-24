@@ -1,8 +1,8 @@
-using McpGleam.Utils;
+using McpGleamDocs.Utils;
 using Models;
 using Xunit;
 
-namespace McpGleam.Tests
+namespace McpGleamDocs.Tests
 {
     public class DocumentationTests
     {

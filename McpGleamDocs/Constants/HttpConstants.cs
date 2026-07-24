@@ -1,4 +1,4 @@
-﻿namespace McpGleam.Constants
+namespace McpGleamDocs.Constants
 {
 	internal readonly struct HttpConstants
 	{

@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="McpGleamDocs/McpGleamDocs.csproj" />
+  <Project Path="McpGleamDocs.Tests/McpGleamDocs.Tests.csproj" />
+</Solution>

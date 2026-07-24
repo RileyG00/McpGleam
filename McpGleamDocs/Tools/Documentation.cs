@@ -1,6 +1,6 @@
 using System.Text.Json;
-using McpGleam.Utils;
-using McpGleam.Constants;
+using McpGleamDocs.Utils;
+using McpGleamDocs.Constants;
 using ModelContextProtocol;
 using ModelContextProtocol.Server;
 using Models;
@@ -8,7 +8,7 @@ using System.ComponentModel;
 using Microsoft.Extensions.Hosting;
 using System.Text;
 
-namespace McpGleam.Tools
+namespace McpGleamDocs.Tools
 {
 	
 	[McpServerToolType]

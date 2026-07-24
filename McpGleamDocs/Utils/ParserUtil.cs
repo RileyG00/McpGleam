@@ -3,7 +3,7 @@ using System.Net;
 using System.Text.RegularExpressions;
 using ModelContextProtocol;
 
-namespace McpGleam.Utils
+namespace McpGleamDocs.Utils
 {
 	internal static class ParserUtil
 	{
